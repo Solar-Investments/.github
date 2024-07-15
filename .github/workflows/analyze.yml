@@ -30,4 +30,4 @@ jobs:
                     command: composer install --no-interaction --no-progress --no-suggest
 
             -   name: Run PHPStan
-                run: vendor/bin/phpstan
+                run: vendor/bin/phpstan --error-format=github
