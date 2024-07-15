@@ -1,0 +1,24 @@
+name: blame
+
+on:
+    workflow_call:
+
+jobs:
+    blame:
+        runs-on: ubuntu-latest
+
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v4
+
+            -   name: Update ignore revisions file
+                run: |
+                    git log --grep="^(ignore)" --pretty=format:"%H" --reverse > .git-blame-ignore-revs
+                    echo >> .git-blame-ignore-revs
+
+            -   name: Commit changes
+                uses: stefanzweifel/git-auto-commit-action@v5
+                with:
+                    commit_message: Add commits to ignore
+                    commit_user_name: GitHub Actions
+                    commit_user_email: actions@github.com
