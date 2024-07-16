@@ -1,0 +1,58 @@
+name: test
+
+on:
+  workflow_call:
+    inputs:
+      php:
+        default: "8.3"
+        type: string
+      node:
+        default: "20"
+        type: string
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ inputs.php }}
+          tools: composer:v2
+          extensions: json, dom, curl, libxml, mbstring
+          coverage: none
+
+      - name: Install Composer
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 5
+          max_attempts: 5
+          command: composer install --no-interaction --no-progress
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node }}
+
+      - name: Install NPM dependencies
+        run: npm ci
+
+      - name: Build assets
+        run: npm run build
+
+      - name: Configure Environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: Prepare Database
+        run: |
+          php artisan migrate --force
+
+      - name: Run Tests
+        run: |
+          php artisan test --compact
