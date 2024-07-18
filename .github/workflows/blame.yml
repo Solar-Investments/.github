@@ -10,6 +10,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GH_ACTIONS_TOKEN }}
+
+      - name: Setup Git
+        run: |
+          git config user.name "$GH_ACTIONS_NAME"
+          git config user.email "$GH_ACTIONS_EMAIL"
+        env:
+          GH_ACTIONS_NAME: ${{ vars.GH_ACTIONS_NAME }}
+          GH_ACTIONS_EMAIL: ${{ vars.GH_ACTIONS_EMAIL }}
 
       - name: Update ignore revisions file
         run: |
@@ -20,5 +31,3 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Add commits to ignore
-          commit_user_name: GitHub Actions
-          commit_user_email: actions@github.com
