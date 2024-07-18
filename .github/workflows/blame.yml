@@ -32,3 +32,9 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Add commits to ignore
+          commit_user_name: $GH_ACTIONS_NAME
+          commit_user_email: $GH_ACTIONS_EMAIL
+          commit_author: $GH_ACTIONS_NAME <${GH_ACTIONS_EMAIL}>
+        env:
+          GH_ACTIONS_NAME: ${{ vars.GH_ACTIONS_NAME }}
+          GH_ACTIONS_EMAIL: ${{ vars.GH_ACTIONS_EMAIL }}
