@@ -28,10 +28,27 @@ jobs:
           git log --grep="^(ignore)" --pretty=format:"%H" --reverse > .git-blame-ignore-revs
           echo >> .git-blame-ignore-revs
 
+      - name: Build commit message
+        run: |
+          echo "Add commits to ignore" > commit-message.txt
+          echo >> commit-message.txt
+          echo >> commit-message.txt
+          echo "skip-checks: true" >> commit-message.txt
+
+      - name: Set commit message
+        id: commit_message_step
+        run: |
+          echo 'commit_message<<EOF' >> $GITHUB_OUTPUT
+          cat commit-message.txt >> $GITHUB_OUTPUT
+          echo 'EOF' >> $GITHUB_OUTPUT
+
+      - name: Cleanup
+        run: rm -f commit-message.txt
+
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: Add commits to ignore
+          commit_message: ${{ steps.commit_message_step.outputs.commit_message }}
           commit_user_name: $GH_ACTIONS_NAME
           commit_user_email: $GH_ACTIONS_EMAIL
           commit_author: $GH_ACTIONS_NAME <${GH_ACTIONS_EMAIL}>
