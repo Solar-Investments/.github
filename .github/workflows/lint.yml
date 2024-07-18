@@ -69,6 +69,7 @@ jobs:
           commit_user_name: $GH_ACTIONS_NAME
           commit_user_email: $GH_ACTIONS_EMAIL
           commit_author: "$GH_ACTIONS_NAME <${GH_ACTIONS_EMAIL}>"
+          commit_options: --cleanup=verbatim
         env:
           GH_ACTIONS_NAME: ${{ vars.GH_ACTIONS_NAME }}
           GH_ACTIONS_EMAIL: ${{ vars.GH_ACTIONS_EMAIL }}
