@@ -22,14 +22,6 @@ jobs:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.GH_ACTIONS_TOKEN }}
 
-      - name: Setup Git
-        run: |
-          git config user.name "$GH_ACTIONS_NAME"
-          git config user.email "$GH_ACTIONS_EMAIL"
-        env:
-          GH_ACTIONS_NAME: ${{ vars.GH_ACTIONS_NAME }}
-          GH_ACTIONS_EMAIL: ${{ vars.GH_ACTIONS_EMAIL }}
-
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -66,10 +58,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: ${{ steps.commit_message_step.outputs.commit_message }}
-          commit_user_name: $GH_ACTIONS_NAME
-          commit_user_email: $GH_ACTIONS_EMAIL
-          commit_author: "$GH_ACTIONS_NAME <${GH_ACTIONS_EMAIL}>"
+          commit_user_name: ${{ vars.GH_ACTIONS_NAME }}
+          commit_user_email: ${{ vars.GH_ACTIONS_EMAIL }}
+          commit_author: "${{ vars.GH_ACTIONS_NAME }} <${{ vars.GH_ACTIONS_EMAIL }}>"
           commit_options: --cleanup=verbatim
-        env:
-          GH_ACTIONS_NAME: ${{ vars.GH_ACTIONS_NAME }}
-          GH_ACTIONS_EMAIL: ${{ vars.GH_ACTIONS_EMAIL }}
