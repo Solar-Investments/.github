@@ -1,0 +1,24 @@
+name: envoyer
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        required: false
+        type: string
+    secrets:
+      ENVOYER_DEPLOY_TOKEN:
+        required: true
+
+jobs:
+  envoyer:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy
+        run: |
+          if [ -z "${{ inputs.branch }}" ]; then
+            curl -X GET "https://envoyer.io/deploy/${{ secrets.ENVOYER_DEPLOY_TOKEN }}"
+          else
+            curl -X GET "https://envoyer.io/deploy/${{ secrets.ENVOYER_DEPLOY_TOKEN }}?branch=${{ inputs.branch }}"
+          fi
