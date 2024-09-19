@@ -2,6 +2,10 @@ name: deploy
 
 on:
   workflow_call:
+    inputs:
+      branch:
+        type: string
+        required: false
     secrets:
       TRIGGER_URL:
         required: true
@@ -11,7 +15,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set trigger URL
+        run: |
+          if [ "${{ inputs.branch }}" == "main" ] || [ "${{ inputs.branch }}" == "development" ]; then
+            echo "TRIGGER_URL=${{ secrets.TRIGGER_URL }}" >> $GITHUB_ENV
+          else
+            branchName=""
+            [ -n "${{ inputs.branch }}" ] && branchName="?branch=${{ inputs.branch }}"
+            echo "TRIGGER_URL=${{ secrets.TRIGGER_URL }}${branchName}" >> $GITHUB_ENV
+          fi
       - name: Deploy
         uses: jbrooksuk/laravel-forge-action@v1.0.4
         with:
-          trigger_url: ${{ secrets.TRIGGER_URL }}
+          trigger_url: ${{ env.TRIGGER_URL }}
