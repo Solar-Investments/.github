@@ -22,12 +22,33 @@ jobs:
           tools: composer:v2
           coverage: none
 
+      - name: Copy environment file
+        run: |
+          if [ -f .env.example ]; then
+            echo "Copying .env.example to .env"
+            cp .env.example .env
+          fi
+
+      - name: Create SQLite database
+        run: |
+          if [ -d database ]; then
+            echo "Creating SQLite database"
+            touch database/database.sqlite
+          fi
+
       - name: Install Composer dependencies
         uses: nick-fields/retry@v3
         with:
           timeout_minutes: 5
           max_attempts: 5
           command: composer install --no-interaction --no-progress --no-scripts
+
+      - name: Generate key
+        run: |
+          if [ -f artisan ]; then
+            echo "Generating application key"
+            php artisan key:generate
+          fi
 
       - name: Run PHPStan
         run: vendor/bin/phpstan --error-format=github
