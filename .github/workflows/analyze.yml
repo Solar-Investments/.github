@@ -29,5 +29,11 @@ jobs:
           max_attempts: 5
           command: composer install --no-interaction --no-progress --no-scripts
 
+      - name: Configure environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          touch database/database.sqlite
+
       - name: Run PHPStan
         run: vendor/bin/phpstan --error-format=github
