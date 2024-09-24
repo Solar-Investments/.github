@@ -31,9 +31,14 @@ jobs:
 
       - name: Configure environment
         run: |
-          cp .env.example .env
-          php artisan key:generate
-          touch database/database.sqlite
+          if [ -f .env.example ]; then
+            cp .env.example .env
+          fi
+
+          if [ -f artisan ]; then
+            php artisan key:generate
+            touch database/database.sqlite
+          fi
 
       - name: Run PHPStan
         run: vendor/bin/phpstan --error-format=github
