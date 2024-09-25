@@ -50,8 +50,11 @@ jobs:
       - name: Build assets
         run: npm run build
 
+      - name: Dump autoloader
+        run: composer dump
+
       - name: Generate key
-        run: php artisan key:generate -vvv
+        run: php artisan key:generate
 
       - name: Run migrations
         run: php artisan migrate --force
