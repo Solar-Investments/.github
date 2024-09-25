@@ -31,6 +31,12 @@ jobs:
         with:
           node-version: ${{ inputs.node }}
 
+      - name: Copy environment file
+        run: cp .env.example .env
+
+      - name: Create SQLite database
+        run: touch database/database.sqlite
+
       - name: Install Composer dependencies
         uses: nick-fields/retry@v3
         with:
@@ -44,11 +50,8 @@ jobs:
       - name: Build assets
         run: npm run build
 
-      - name: Configure environment
-        run: |
-          cp .env.example .env
-          php artisan key:generate
-          touch database/database.sqlite
+      - name: Generate key
+        run: php artisan key:generate
 
       - name: Run migrations
         run: php artisan migrate --force
