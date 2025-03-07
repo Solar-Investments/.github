@@ -50,5 +50,12 @@ jobs:
             php artisan key:generate
           fi
 
+      - name: Generate IDE helper
+        run: |
+          if grep -q '"ide":' composer.json; then
+            echo "Generating IDE helper"
+            COMPOSER_ALLOW_SUPERUSER=1 composer ide
+          fi
+
       - name: Run PHPStan
         run: vendor/bin/phpstan --error-format=github
