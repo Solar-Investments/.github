@@ -48,6 +48,9 @@ jobs:
           max_attempts: 5
           command: composer install --no-interaction --no-progress --no-scripts
 
+      - name: Dump autoloader
+        run: composer dump
+
       - name: Generate key
         run: |
           if [ -f artisan ]; then
