@@ -9,6 +9,8 @@ on:
 
 env:
   CACHE_STORE: array
+  DB_CONNECTION: sqlite
+  DB_DATABASE: database/database.sqlite
 
 jobs:
   analyze:
