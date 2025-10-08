@@ -9,6 +9,7 @@ on:
 
 env:
   CACHE_STORE: array
+  COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
   DB_CONNECTION: sqlite
   DB_DATABASE: database/database.sqlite
 

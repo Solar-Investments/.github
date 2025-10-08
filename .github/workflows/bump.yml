@@ -9,6 +9,7 @@ on:
 
 env:
   CACHE_STORE: array
+  COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
 
 jobs:
   bump:
