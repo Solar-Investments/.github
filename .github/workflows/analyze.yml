@@ -60,3 +60,7 @@ jobs:
 
       - name: Run PHPStan
         run: vendor/bin/phpstan --error-format=github
+
+permissions:
+  contents: read
+  packages: read
