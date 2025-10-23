@@ -34,7 +34,7 @@ jobs:
       - name: Init
         working-directory: ${{ inputs.path }}
         run: |
-          if [ -f init.sh ]; then
+          if [ -f init.dist.sh ]; then
             echo "Running init script"
             bash ./init.sh
           fi
