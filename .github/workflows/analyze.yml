@@ -32,11 +32,7 @@ jobs:
           coverage: none
           
       - name: Path
-        run: |
-          if [ ${{ inputs.path }} ]; then
-            echo "Update path"
-            cd ${{ inputs.path }}
-          fi
+        run: cd ${{ inputs.path }}
 
       - name: Copy environment file
         run: |
