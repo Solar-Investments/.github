@@ -63,7 +63,7 @@ jobs:
             composer install --no-interaction --no-progress --no-scripts
 
       - name: Dump autoloader
-        run: composer dump
+        run: composer dump-autoload
         working-directory: ${{ inputs.path }}
 
       - name: Generate key
