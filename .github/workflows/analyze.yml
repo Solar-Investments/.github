@@ -4,8 +4,11 @@ on:
   workflow_call:
     inputs:
       php:
-        default: '8.3'
+        default: '8.4'
         type: string
+      path:
+        type: string
+        default: '.'
 
 env:
   CACHE_STORE: array
@@ -27,6 +30,13 @@ jobs:
           php-version: ${{ inputs.php }}
           tools: composer:v2
           coverage: none
+          
+      - name: Path
+        run: |
+          if [ ${{ inputs.path }} ]; then
+            echo "Update path"
+            cd ${{ inputs.path }}
+          fi
 
       - name: Copy environment file
         run: |
