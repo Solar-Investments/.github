@@ -36,7 +36,7 @@ jobs:
         run: |
           if [ -f init.dist.sh ]; then
             echo "Running init script"
-            bash ./init.sh
+            bash ./init.dist.sh
           fi
 
       - name: Copy environment file
