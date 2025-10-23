@@ -36,6 +36,7 @@ jobs:
         run: |
           if [ -f init.dist.sh ]; then
             echo "Running init script"
+            tail ./init.dist.sh
             bash ./init.dist.sh
           fi
 
