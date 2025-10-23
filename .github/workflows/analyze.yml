@@ -78,6 +78,7 @@ jobs:
           fi
 
       - name: Run PHPStan
+        working-directory: ${{ inputs.path }}
         run: vendor/bin/phpstan ${{ inputs.path }} --error-format=github
 
 permissions:
