@@ -80,7 +80,7 @@ jobs:
 
       - name: Run PHPStan
         working-directory: ${{ inputs.path }}
-        run: vendor/bin/phpstan ${{ inputs.path }} --error-format=github
+        run: vendor/bin/phpstan --error-format=github
 
 permissions:
   contents: read
