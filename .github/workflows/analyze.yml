@@ -33,6 +33,10 @@ jobs:
           
       - name: Path
         run: cd ${{ inputs.path }}
+      - name: List files in current directory
+        run: ls -la
+      - name: Print current working directory
+        run: pwd
 
       - name: Copy environment file
         run: |
