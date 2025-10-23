@@ -8,7 +8,7 @@ on:
         type: string
       path:
         type: string
-        default: '.'
+        default: './'
 
 env:
   CACHE_STORE: array
@@ -32,13 +32,12 @@ jobs:
           coverage: none
           
       - name: Path
-        run: cd ${{ inputs.path }}
-      - name: List files in current directory
-        run: ls -la
-      - name: Print current working directory
-        run: pwd
+        run: |
+          cd ${{ inputs.path }}
+          ls -la
 
       - name: Copy environment file
+        working-directory: ${{ inputs.path }}
         run: |
           if [ -f .env.example ]; then
             echo "Copying .env.example to .env"
@@ -46,6 +45,7 @@ jobs:
           fi
 
       - name: Create SQLite database
+        working-directory: ${{ inputs.path }}
         run: |
           if [ -d database ]; then
             echo "Creating SQLite database"
@@ -57,12 +57,17 @@ jobs:
         with:
           timeout_minutes: 5
           max_attempts: 5
-          command: composer install --no-interaction --no-progress --no-scripts
+          command: |
+            cd ${{ inputs.path }}
+            pwd
+            composer install --no-interaction --no-progress --no-scripts
 
       - name: Dump autoloader
         run: composer dump
+        working-directory: ${{ inputs.path }}
 
       - name: Generate key
+        working-directory: ${{ inputs.path }}
         run: |
           if [ -f artisan ]; then
             echo "Generating application key"
@@ -70,6 +75,7 @@ jobs:
           fi
 
       - name: Run PHPStan
+        working-directory: ${{ inputs.path }}
         run: vendor/bin/phpstan --error-format=github
 
 permissions:
