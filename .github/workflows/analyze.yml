@@ -31,10 +31,12 @@ jobs:
           tools: composer:v2
           coverage: none
           
-      - name: Path
+      - name: Init
+        working-directory: ${{ inputs.path }}
         run: |
-          cd ${{ inputs.path }}
-          ls -la
+          if [ -f init.sh]; then
+            echo "Running init script
+            bash ./init.sh
 
       - name: Copy environment file
         working-directory: ${{ inputs.path }}
