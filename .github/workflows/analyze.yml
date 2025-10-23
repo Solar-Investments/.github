@@ -37,6 +37,7 @@ jobs:
           if [ -f init.sh]; then
             echo "Running init script"
             bash ./init.sh
+          fi
 
       - name: Copy environment file
         working-directory: ${{ inputs.path }}
